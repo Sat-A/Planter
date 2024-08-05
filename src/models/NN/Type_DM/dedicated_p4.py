@@ -205,7 +205,7 @@ def separate_tables(fname, config):
                           "        x = (x & m16) + ((x >> 16) & m16);\n"
                           "        x = (x & m32) + ((x >> 32) & m32);\n"
                           "        x = (x & m64) + ((x >> 64) & m64);\n"
-                          "        meta.activated = (x>"+str(np.int(np.floor(threshold)))+") ? (bit<1>)1 : 0;\n"
+                          "        meta.activated = (x>"+str(int(np.floor(threshold)))+") ? (bit<1>)1 : 0;\n"
                           "        meta.NextLayerInput = meta.NextLayerInput<<1;\n"
                           "        meta.NextLayerInput = meta.NextLayerInput + (bit<64>)meta.activated;\n"
                           "    }\n\n")
@@ -225,16 +225,16 @@ def separate_tables(fname, config):
 
         for l in range(config['num_layers']):
             if l == 0:
-                num_zeros = np.int(128 - np.sum(config['width']))
-                num_ones = np.int(np.sum(config['width']))
+                num_zeros = int(128 - np.sum(config['width']))
+                num_ones = int(np.sum(config['width']))
                 bound =  int("0b"+"0"*num_zeros+"1"*num_ones,2)
             else:
-                num_zeros = np.int(128 - config['num_hidden_nodes'][l - 1])
-                num_ones = np.int(config['num_hidden_nodes'][l - 1])
+                num_zeros = int(128 - config['num_hidden_nodes'][l - 1])
+                num_ones = int(config['num_hidden_nodes'][l - 1])
                 bound = int("0b" + "0" * num_zeros + "1" * num_ones, 2)
             if l==0:
                 ingress.write("    action Layer"+str(l)+"_Process(bit <10> offset){ \n"
-                              # "        bit < "+str(np.int(np.sum(config['width'])))+" > weight = 0;\n"
+                              # "        bit < "+str(int(np.sum(config['width'])))+" > weight = 0;\n"
                               "        bit <64> weight = 0;\n")
                               # "        meta.NextLayerInput = 0;\n")
                 for h in range(config['num_hidden_nodes'][l]):
@@ -271,7 +271,7 @@ def separate_tables(fname, config):
         ingress.write("    action BuildInput(){\n")
         for f in range(config['num_features']):
             if f+1<config['num_features']:
-                ingress.write("        meta.bnnInput = (meta.bnnInput + (bit <64>) hdr.Planter.feature"+str(f)+") << "+str(np.int(config['width'][f+1]))+";\n")
+                ingress.write("        meta.bnnInput = (meta.bnnInput + (bit <64>) hdr.Planter.feature"+str(f)+") << "+str(int(config['width'][f+1]))+";\n")
             else:
                 ingress.write("        meta.bnnInput = (meta.bnnInput + (bit <64>) hdr.Planter.feature" + str(f) + ") ;\n")
 

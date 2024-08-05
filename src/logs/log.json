@@ -184,7 +184,7 @@
     "num_feature: 4": {
         "num_tree: 5": {
             "num_depth: 4": {
-                "classification_report": "              precision    recall  f1-score   support\n\n           0     1.0000    1.0000    1.0000        13\n           1     0.9524    1.0000    0.9756        20\n           2     1.0000    0.9167    0.9565        12\n\n    accuracy                         0.9778        45\n   macro avg     0.9841    0.9722    0.9774        45\nweighted avg     0.9788    0.9778    0.9776        45\n",
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     1.0000    1.0000    1.0000        13\n           1     0.9500    0.9500    0.9500        20\n           2     0.9167    0.9167    0.9167        12\n\n    accuracy                         0.9556        45\n   macro avg     0.9556    0.9556    0.9556        45\nweighted avg     0.9556    0.9556    0.9556        45\n",
                 "max number of leaf nodes": 1000
             },
             "num_depth: 2": {

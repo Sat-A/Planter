@@ -23,7 +23,7 @@ import time
 
 # %matplotlib inline
 import matplotlib.pyplot as plt
-plt.style.use('seaborn')
+plt.style.use('seaborn-v0_8')
 
 import seaborn as sns
 sns.set_style("whitegrid")
@@ -71,7 +71,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
 
     Planter_config = json.load(open(config_file, 'r'))
     Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
-    Planter_config['model config']['learning rate'] = np.float(input('- Model learning rate? (default = 0.01) ') or '0.01')
+    Planter_config['model config']['learning rate'] = float(input('- Model learning rate? (default = 0.01) ') or '0.01')
     Planter_config['model config']['batch size'] = int(input('- Model batch size? (default = 10) ') or '10')
     Planter_config['model config']['num epoch'] = int(input('- Number of training epoch? (default = 15) ') or '15')
     Planter_config['model config']['number of layers'] = int(input('- Number of layers? (default = 3) ') or '3')
@@ -252,9 +252,9 @@ def test_tables(sklearn_test_y, test_X, test_y):
         node_num = 0
         for l in range(num_layers):
             if l == 0:
-                num_bits = np.int(np.sum(width))
+                num_bits = int(np.sum(width))
             else:
-                num_bits = np.int(num_hidden_nodes[l - 1])
+                num_bits = int(num_hidden_nodes[l - 1])
             next_layer_input = ''
             if l+1 != num_layers:
                 for n in range(num_hidden_nodes[l]):

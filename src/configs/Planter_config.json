@@ -1,19 +1,121 @@
 {
     "directory config": {
-        "data": "/Users/changgang/Documents/GitHub/Data",
-        "work": "/Users/changgang/Documents/GitHub/Planter_for_public"
+        "data": "./Data",
+        "work": "/home/p4/Planter"
     },
     "model config": {
-        "model": "DT",
-        "type": "EB"
+        "model": "RF",
+        "type": "EB",
+        "number of trees": 5,
+        "number of depth": 4,
+        "max number of leaf nodes": 1000,
+        "number of classes": 3,
+        "test table": "y"
     },
     "data config": {
-        "dataset": "UNSW_sample",
-        "number of features": 5
+        "dataset": "Iris",
+        "number of features": 4,
+        "testing mode": "n"
     },
     "timer log": {
         "load data": {
-            "start": 1712615746.566884
+            "start": 1722853635.0227432,
+            "end": 1722853635.0278192
+        },
+        "train model": {
+            "start": 1722853639.726815,
+            "end": 1722853639.7379413
+        },
+        "convert model": {
+            "start": 1722853639.7379422,
+            "end": 1722853639.7702458
+        },
+        "python-based test": {
+            "start": 1722853640.918428,
+            "end": 1722853640.9894574
         }
+    },
+    "p4 config": {
+        "model": "RF",
+        "number of features": 4,
+        "number of classes": 3,
+        "number of trees": 5,
+        "table name": "Ternary_Table.json",
+        "decision table size": 132,
+        "code table size": [
+            10,
+            9,
+            13,
+            4,
+            9
+        ],
+        "default vote": 1,
+        "default label": 0,
+        "width of feature": [
+            8,
+            7,
+            8,
+            6
+        ],
+        "width of code": [
+            [
+                2.0,
+                1.0,
+                3.0,
+                2.0
+            ],
+            [
+                2.0,
+                1.0,
+                3.0,
+                2.0
+            ],
+            [
+                2.0,
+                1.0,
+                3.0,
+                3.0
+            ],
+            [
+                1.0,
+                2.0,
+                3.0,
+                1.0
+            ],
+            [
+                2.0,
+                1.0,
+                3.0,
+                2.0
+            ]
+        ],
+        "used columns": [
+            12,
+            8,
+            22,
+            10
+        ],
+        "width of probability": 7,
+        "width of result": 8,
+        "standard headers": [
+            "ethernet",
+            "Planter",
+            "arp",
+            "ipv4",
+            "tcp",
+            "udp",
+            "vlan_tag"
+        ]
+    },
+    "test config": {
+        "type of test": "classification",
+        "port": "eth0",
+        "sudo password": "p4"
+    },
+    "target config": {
+        "architecture": "v1model",
+        "use case": "performance",
+        "device": "bmv2",
+        "type": "software"
     }
 }
