@@ -55,10 +55,10 @@
  */
 
 #include <core.p4>
-#include <tna.p4>
+#include <v1model.p4>
 
 /*************************************************************************
-*********************** headers and metadata******************************
+*********************** headers and metadata *****************************
 *************************************************************************/
 
 const bit<16> ETHERTYPE_Planter = 0x1234;
@@ -108,15 +108,13 @@ struct metadata_t {
 *********************** Ingress Parser ***********************************
 *************************************************************************/
 
-parser SwitchIngressParser(
+parser SwitchParser(
     packet_in pkt,
     out header_t hdr,
-    out metadata_t meta,
-    out ingress_intrinsic_metadata_t ig_intr_md) {
+    inout metadata_t meta,
+    inout standard_metadata_t ig_intr_md) {
 
     state start {
-        pkt.extract(ig_intr_md);
-        pkt.advance(PORT_METADATA_SIZE);
         transition parse_ethernet;
     }
 
@@ -149,49 +147,33 @@ parser SwitchIngressParser(
 }
 
 /*************************************************************************
-*********************** Ingress Deparser *********************************
-**************************************************************************/
-
-control SwitchIngressDeparser(
-    packet_out pkt,
-    inout header_t hdr,
-    in metadata_t ig_md,
-    in ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md) {
-    apply {
-        pkt.emit(hdr);
-    }
-}
-
-/*************************************************************************
-*********************** Egress Parser ***********************************
-*************************************************************************/
-
-parser SwitchEgressParser(
-    packet_in pkt,
-    out header_t hdr,
-    out metadata_t meta,
-    out egress_intrinsic_metadata_t eg_intr_md) {
-    state start {
-        pkt.extract(eg_intr_md);
-        transition accept;
-        }
-
-}
-
-/*************************************************************************
 *********************** Egress Deparser *********************************
 **************************************************************************/
 
-control SwitchEgressDeparser(
+control SwitchDeparser(
     packet_out pkt,
-    inout header_t hdr,
-    in metadata_t eg_md,
-    in egress_intrinsic_metadata_for_deparser_t eg_dprsr_md) {
+    in header_t hdr) {
     apply {
         pkt.emit(hdr);
     }
 }
 
+/*************************************************************************
+********************** Checksum Verification *****************************
+*************************************************************************/
+
+control SwitchVerifyChecksum(inout header_t hdr,
+                       inout metadata_t meta) {
+    apply {}
+}
+/*************************************************************************
+********************** Checksum Computation ******************************
+*************************************************************************/
+
+control SwitchComputeChecksum(inout header_t hdr,
+                        inout metadata_t meta) {
+    apply {}
+}
 /*************************************************************************
 *********************** Ingress Processing********************************
 **************************************************************************/
@@ -199,17 +181,14 @@ control SwitchEgressDeparser(
 control SwitchIngress(
     inout header_t hdr,
     inout metadata_t meta,
-    in ingress_intrinsic_metadata_t ig_intr_md,
-    in ingress_intrinsic_metadata_from_parser_t ig_prsr_md,
-    inout ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md,
-    inout ingress_intrinsic_metadata_for_tm_t ig_tm_md) {
+    inout standard_metadata_t ig_intr_md) {
 
-    action drop() {
-        ig_dprsr_md.drop_ctl = 0x1;
+    action send(bit<9> port) {
+        ig_intr_md.egress_spec = port;
     }
 
-    action send(PortId_t port) {
-        ig_tm_md.ucast_egress_port = port;
+    action drop() {
+        mark_to_drop(ig_intr_md);
     }
 
     action extract_feature0(out bit<1> meta_code, bit<1> tree){
@@ -297,15 +276,7 @@ control SwitchIngress(
 
 control SwitchEgress(inout header_t hdr,
     inout metadata_t meta,
-    in egress_intrinsic_metadata_t eg_intr_md,
-    in egress_intrinsic_metadata_from_parser_t eg_prsr_md,
-    inout egress_intrinsic_metadata_for_deparser_t     eg_dprsr_md,
-    inout egress_intrinsic_metadata_for_output_port_t  eg_oport_md) {
-
-    action drop() {
-        eg_dprsr_md.drop_ctl = 0x1;
-    }
-
+    inout standard_metadata_t eg_intr_md) {
     apply {
     }
 }
@@ -313,11 +284,11 @@ control SwitchEgress(inout header_t hdr,
 ***********************  S W I T C H  ************************************
 *************************************************************************/
 
-Pipeline(SwitchIngressParser(),
+V1Switch(
+    SwitchParser(),
+    SwitchVerifyChecksum(),
     SwitchIngress(),
-    SwitchIngressDeparser(),
-    SwitchEgressParser(),
     SwitchEgress(),
-    SwitchEgressDeparser()) pipe;
-
-Switch(pipe) main;
+    SwitchComputeChecksum(),
+    SwitchDeparser()
+) main;

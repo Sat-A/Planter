@@ -90,21 +90,23 @@ struct header_t {
 }
 
 struct metadata_t {
-    bit<11> code_f0;
-    bit<9> code_f1;
-    bit<12> code_f2;
-    bit<15> code_f3;
+    bit<6> code_f0;
+    bit<6> code_f1;
+    bit<14> code_f2;
+    bit<10> code_f3;
     bit<7> sum_prob;
     bit<4> tree_0_vote;
     bit<4> tree_1_vote;
     bit<4> tree_2_vote;
     bit<4> tree_3_vote;
     bit<4> tree_4_vote;
+    bit<4> tree_5_vote;
     bit<7> tree_0_prob;
     bit<7> tree_1_prob;
     bit<7> tree_2_prob;
     bit<7> tree_3_prob;
     bit<7> tree_4_prob;
+    bit<7> tree_5_prob;
     bit<32>  DstAddr;
     bit<32> feature0;
     bit<32> feature1;
@@ -201,63 +203,59 @@ control SwitchIngress(
         mark_to_drop(ig_intr_md);
     }
 
-    action extract_feature0(out bit<11> meta_code, bit<11> tree){
+    action extract_feature0(out bit<6> meta_code, bit<6> tree){
         meta_code = tree;
     }
 
-    action extract_feature1(out bit<9> meta_code, bit<9> tree){
+    action extract_feature1(out bit<6> meta_code, bit<6> tree){
         meta_code = tree;
     }
 
-    action extract_feature2(out bit<12> meta_code, bit<12> tree){
+    action extract_feature2(out bit<14> meta_code, bit<14> tree){
         meta_code = tree;
     }
 
-    action extract_feature3(out bit<15> meta_code, bit<15> tree){
+    action extract_feature3(out bit<10> meta_code, bit<10> tree){
         meta_code = tree;
     }
 
-    @pragma stage 0
     table lookup_feature0 {
-        key = { hdr.Planter.feature0:ternary; }
+        key = { meta.feature0:ternary; }
         actions = {
             extract_feature0(meta.code_f0);
             NoAction;
             }
-        size = 16;
+        size = 8;
         default_action = NoAction;
     }
 
-    @pragma stage 0
     table lookup_feature1 {
-        key = { hdr.Planter.feature1:ternary; }
+        key = { meta.feature1:ternary; }
         actions = {
             extract_feature1(meta.code_f1);
             NoAction;
             }
-        size = 11;
+        size = 7;
         default_action = NoAction;
     }
 
-    @pragma stage 0
     table lookup_feature2 {
-        key = { hdr.Planter.feature2:ternary; }
+        key = { meta.feature2:ternary; }
         actions = {
             extract_feature2(meta.code_f2);
             NoAction;
             }
-        size = 20;
+        size = 13;
         default_action = NoAction;
     }
 
-    @pragma stage 0
     table lookup_feature3 {
-        key = { hdr.Planter.feature3:ternary; }
+        key = { meta.feature3:ternary; }
         actions = {
             extract_feature3(meta.code_f3);
             NoAction;
             }
-        size = 12;
+        size = 10;
         default_action = NoAction;
     }
 
@@ -267,7 +265,7 @@ control SwitchIngress(
         meta.tree_0_vote = vote;
     }
     action write_default_class0() {
-        meta.tree_0_vote = 2;
+        meta.tree_0_vote = 0;
     }
 
 
@@ -276,7 +274,7 @@ control SwitchIngress(
         meta.tree_1_vote = vote;
     }
     action write_default_class1() {
-        meta.tree_1_vote = 2;
+        meta.tree_1_vote = 0;
     }
 
 
@@ -285,7 +283,7 @@ control SwitchIngress(
         meta.tree_2_vote = vote;
     }
     action write_default_class2() {
-        meta.tree_2_vote = 2;
+        meta.tree_2_vote = 0;
     }
 
 
@@ -294,7 +292,7 @@ control SwitchIngress(
         meta.tree_3_vote = vote;
     }
     action write_default_class3() {
-        meta.tree_3_vote = 2;
+        meta.tree_3_vote = 0;
     }
 
 
@@ -303,90 +301,108 @@ control SwitchIngress(
         meta.tree_4_vote = vote;
     }
     action write_default_class4() {
-        meta.tree_4_vote = 2;
+        meta.tree_4_vote = 0;
     }
 
-    @pragma stage 1
+
+    action read_prob5(bit<7> prob, bit<4> vote){
+        meta.tree_5_prob = prob;
+        meta.tree_5_vote = vote;
+    }
+    action write_default_class5() {
+        meta.tree_5_vote = 0;
+    }
+
     table lookup_leaf_id0 {
-        key = { meta.code_f0[1:0]:exact;
-                meta.code_f1[1:0]:exact;
+        key = { meta.code_f0[0:0]:exact;
+                meta.code_f1[0:0]:exact;
                 meta.code_f2[1:0]:exact;
-                meta.code_f3[2:0]:exact;
+                meta.code_f3[0:0]:exact;
                 }
         actions={
             read_prob0;
             write_default_class0;
         }
-        size = 26;
+        size = 1;
         default_action = write_default_class0;
     }
 
-    @pragma stage 1
     table lookup_leaf_id1 {
-        key = { meta.code_f0[3:2]:exact;
-                meta.code_f1[3:2]:exact;
-                meta.code_f2[3:2]:exact;
-                meta.code_f3[5:3]:exact;
+        key = { meta.code_f0[1:1]:exact;
+                meta.code_f1[1:1]:exact;
+                meta.code_f2[4:2]:exact;
+                meta.code_f3[2:1]:exact;
                 }
         actions={
             read_prob1;
             write_default_class1;
         }
-        size = 16;
+        size = 4;
         default_action = write_default_class1;
     }
 
-    @pragma stage 1
     table lookup_leaf_id2 {
-        key = { meta.code_f0[5:4]:exact;
-                meta.code_f1[5:4]:exact;
-                meta.code_f2[5:4]:exact;
-                meta.code_f3[8:6]:exact;
+        key = { meta.code_f0[2:2]:exact;
+                meta.code_f1[2:2]:exact;
+                meta.code_f2[6:5]:exact;
+                meta.code_f3[4:3]:exact;
                 }
         actions={
             read_prob2;
             write_default_class2;
         }
-        size = 23;
+        size = 3;
         default_action = write_default_class2;
     }
 
-    @pragma stage 1
     table lookup_leaf_id3 {
-        key = { meta.code_f0[8:6]:exact;
-                meta.code_f1[7:6]:exact;
-                meta.code_f2[8:6]:exact;
-                meta.code_f3[11:9]:exact;
+        key = { meta.code_f0[3:3]:exact;
+                meta.code_f1[3:3]:exact;
+                meta.code_f2[8:7]:exact;
+                meta.code_f3[5:5]:exact;
                 }
         actions={
             read_prob3;
             write_default_class3;
         }
-        size = 30;
+        size = 1;
         default_action = write_default_class3;
     }
 
-    @pragma stage 1
     table lookup_leaf_id4 {
-        key = { meta.code_f0[10:9]:exact;
-                meta.code_f1[8:8]:exact;
+        key = { meta.code_f0[4:4]:exact;
+                meta.code_f1[4:4]:exact;
                 meta.code_f2[11:9]:exact;
-                meta.code_f3[14:12]:exact;
+                meta.code_f3[7:6]:exact;
                 }
         actions={
             read_prob4;
             write_default_class4;
         }
-        size = 13;
+        size = 3;
         default_action = write_default_class4;
     }
 
+    table lookup_leaf_id5 {
+        key = { meta.code_f0[5:5]:exact;
+                meta.code_f1[5:5]:exact;
+                meta.code_f2[13:12]:exact;
+                meta.code_f3[9:8]:exact;
+                }
+        actions={
+            read_prob5;
+            write_default_class5;
+        }
+        size = 3;
+        default_action = write_default_class5;
+    }
+
     action read_lable(bit<32> label){
-        hdr.Planter.result = label;
+        meta.result = label;
     }
 
     action write_default_decision() {
-        hdr.Planter.result = 0;
+        meta.result = 0;
     }
 
     table decision {
@@ -395,12 +411,13 @@ control SwitchIngress(
                 meta.tree_2_vote:exact;
                 meta.tree_3_vote:exact;
                 meta.tree_4_vote:exact;
+                meta.tree_5_vote:exact;
                 }
         actions={
             read_lable;
             write_default_decision;
         }
-        size = 132;
+        size = 436;
         default_action = write_default_decision;
     }
 
@@ -414,6 +431,7 @@ control SwitchIngress(
         lookup_leaf_id2.apply();
         lookup_leaf_id3.apply();
         lookup_leaf_id4.apply();
+        lookup_leaf_id5.apply();
         decision.apply();
         send(ig_intr_md.ingress_port);
     }

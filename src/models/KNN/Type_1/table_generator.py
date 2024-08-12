@@ -182,9 +182,9 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
     config_file = 'src/configs/Planter_config.json'
 
     Planter_config = json.load(open(config_file, 'r'))
-    Planter_config['model config']['depth of quadtree'] = np.int(input('- Number of depth of the quadtree? (default = 2) ') or '2')
-    Planter_config['model config']['number of neighbours'] = np.int(input('- Number of neighbours of the knn? (default = 4) ') or '4')
-    Planter_config['model config']['number of classes'] = np.int(np.max(train_y) + 1)
+    Planter_config['model config']['depth of quadtree'] = int(input('- Number of depth of the quadtree? (default = 2) ') or '2')
+    Planter_config['model config']['number of neighbours'] = int(input('- Number of neighbours of the knn? (default = 4) ') or '4')
+    Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
 
     num_neighbours = Planter_config['model config']['number of neighbours']
     num_features = Planter_config['data config']['number of features']

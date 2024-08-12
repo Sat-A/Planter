@@ -71,7 +71,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
 
     Planter_config = json.load(open(config_file, 'r'))
     Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
-    Planter_config['model config']['learning rate'] = np.float(input('- Model learning rate? (default = 0.01) ') or '0.01')
+    Planter_config['model config']['learning rate'] = float(input('- Model learning rate? (default = 0.01) ') or '0.01')
     Planter_config['model config']['batch size'] = int(input('- Model batch size? (default = 10) ') or '10')
     Planter_config['model config']['num epoch'] = int(input('- Number of training epoch? (default = 15) ') or '15')
     Planter_config['model config']['number of layers'] = int(input('- Number of layers? (default = 3) ') or '3')

@@ -63,6 +63,12 @@
                 "classification_report": "              precision    recall  f1-score   support\n\n           0     0.7353    0.9119    0.8141     84972\n           1     0.6443    0.3272    0.4340     41464\n\n    accuracy                         0.7201    126436\n   macro avg     0.6898    0.6196    0.6241    126436\nweighted avg     0.7055    0.7201    0.6895    126436\n",
                 "max number of leaf nodes": 1000
             }
+        },
+        "num_tree: 5": {
+            "num_depth: 4": {
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     1.0000    1.0000    1.0000        21\n           1     1.0000    1.0000    1.0000         9\n\n    accuracy                         1.0000        30\n   macro avg     1.0000    1.0000    1.0000        30\nweighted avg     1.0000    1.0000    1.0000        30\n",
+                "max number of leaf nodes": 1000
+            }
         }
     },
     "num_feature: 5": {
@@ -184,7 +190,7 @@
     "num_feature: 4": {
         "num_tree: 5": {
             "num_depth: 4": {
-                "classification_report": "              precision    recall  f1-score   support\n\n           0     1.0000    1.0000    1.0000        13\n           1     0.9500    0.9500    0.9500        20\n           2     0.9167    0.9167    0.9167        12\n\n    accuracy                         0.9556        45\n   macro avg     0.9556    0.9556    0.9556        45\nweighted avg     0.9556    0.9556    0.9556        45\n",
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.6000    1.0000    0.7500         3\n           1     1.0000    1.0000    1.0000         9\n           2     1.0000    0.9733    0.9865        75\n           3     1.0000    1.0000    1.0000         5\n\n    accuracy                         0.9783        92\n   macro avg     0.9000    0.9933    0.9341        92\nweighted avg     0.9870    0.9783    0.9808        92\n",
                 "max number of leaf nodes": 1000
             },
             "num_depth: 2": {
@@ -242,8 +248,8 @@
                 "max number of leaf nodes": 1000
             },
             "num_depth: 2": {
-                "classification_report": "              precision    recall  f1-score   support\n\n           0      1.000     1.000     1.000        13\n           1      0.905     0.950     0.927        20\n           2      0.909     0.833     0.870        12\n\n    accuracy                          0.933        45\n   macro avg      0.938     0.928     0.932        45\nweighted avg      0.933     0.933     0.933        45\n",
-                "max number of leaf nodes": 10000
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.0000    0.0000    0.0000         3\n           1     0.0000    0.0000    0.0000         9\n           2     0.8152    1.0000    0.8982        75\n           3     0.0000    0.0000    0.0000         5\n\n    accuracy                         0.8152        92\n   macro avg     0.2038    0.2500    0.2246        92\nweighted avg     0.6646    0.8152    0.7322        92\n",
+                "max number of leaf nodes": 500
             },
             "num_depth: 3": {
                 "classification_report": "              precision    recall  f1-score   support\n\n           0     1.0000    1.0000    1.0000        13\n           1     0.9048    0.9500    0.9268        20\n           2     0.9091    0.8333    0.8696        12\n\n    accuracy                         0.9333        45\n   macro avg     0.9380    0.9278    0.9321        45\nweighted avg     0.9334    0.9333    0.9327        45\n",
@@ -329,6 +335,12 @@
                 "classification_report": "              precision    recall  f1-score   support\n\n           0     0.7136    0.8099    0.7587       363\n           1     0.6330    0.5021    0.5600       237\n\n    accuracy                         0.6883       600\n   macro avg     0.6733    0.6560    0.6594       600\nweighted avg     0.6817    0.6883    0.6802       600\n",
                 "max number of leaf nodes": 1000
             }
+        },
+        "num_tree: 5": {
+            "num_depth: 4": {
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.9231    0.9231    0.9231        13\n           1     0.5000    0.4000    0.4444        20\n           2     0.3125    0.4167    0.3571        12\n\n    accuracy                         0.5556        45\n   macro avg     0.5785    0.5799    0.5749        45\nweighted avg     0.5722    0.5556    0.5594        45\n",
+                "max number of leaf nodes": 1000
+            }
         }
     },
     "num_feature: 30": {
@@ -405,6 +417,22 @@
         "num_tree: 5": {
             "num_depth: 4": {
                 "classification_report": "              precision    recall  f1-score   support\n\n           0     0.7658    0.8718    0.8154      3386\n           1     0.6210    0.4405    0.5154      1614\n\n    accuracy                         0.7326      5000\n   macro avg     0.6934    0.6562    0.6654      5000\nweighted avg     0.7190    0.7326    0.7185      5000\n",
+                "max number of leaf nodes": 1000
+            }
+        }
+    },
+    "num_feature: 49": {
+        "num_tree: 5": {
+            "num_depth: 4": {
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.9993    0.9940    0.9966    134327\n           1     0.8170    0.9731    0.8882      3716\n\n    accuracy                         0.9934    138043\n   macro avg     0.9081    0.9835    0.9424    138043\nweighted avg     0.9943    0.9934    0.9937    138043\n",
+                "max number of leaf nodes": 1000
+            }
+        }
+    },
+    "num_feature: 48": {
+        "num_tree: 5": {
+            "num_depth: 4": {
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.9982    0.9951    0.9966    134327\n           1     0.8409    0.9343    0.8851      3716\n\n    accuracy                         0.9935    138043\n   macro avg     0.9195    0.9647    0.9409    138043\nweighted avg     0.9939    0.9935    0.9936    138043\n",
                 "max number of leaf nodes": 1000
             }
         }

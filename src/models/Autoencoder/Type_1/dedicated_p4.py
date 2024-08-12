@@ -174,7 +174,7 @@ def create_tables(Planter_config):
     Entry["action_name"] = "SwitchIngress.read_bias"
     Entry["action_params"] = {}
     for ax in range(num_components):
-        Entry["action_params"]["bias_ax" + str(ax)] = np.int(Exact_Table["bias"]['ax' + str(ax)])
+        Entry["action_params"]["bias_ax" + str(ax)] = int(Exact_Table["bias"]['ax' + str(ax)])
     Table_entries += [Entry]
 
     Runtime = {}
@@ -205,7 +205,7 @@ def create_tables_Commend(fname, config):
 
         for ax in range(num_components):
             file.write(str(label) + " ")
-            label = np.int(Exact_Table["bias"]['ax' + str(ax)])
+            label = int(Exact_Table["bias"]['ax' + str(ax)])
             file.write("\n")
         file.write("\n")
 

@@ -16,21 +16,16 @@ from sklearn.model_selection import train_test_split
 def load_data(num_features, data_dir):
     # Load the dataset with the relevant columns
     #data = pd.read_csv(data_dir + '/Conveqs/conveqs.csv', usecols=['Avg_Timestamp', 'Source', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration', 'Group2'])
-    data = pd.read_csv(data_dir + '/Conveqs/conveqs.csv')
-
+    data = pd.read_csv(data_dir + '/Conveqs/conveqs.csv', usecols=[0,2,3,4,5])
+    data['Avg_Timestamp'] = (data['Avg_Timestamp']%100000).astype("int")
+    data['Avg_Speed'] = (data['Avg_Speed']*100).astype("int")
+    data['Avg_Acceleration'] = (data['Avg_Acceleration']*100).astype("int")
+    print(data)
     # Select the features based on the number specified
-    used_features = ['N_Objects', 'Avg_Speed', 'Avg_Acceleration','Avg_Timestamp', 'Source', ][:num_features]
+    used_features = ['Avg_Timestamp', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration'][:num_features]
 
     # Extract the features (X)
     X = data[used_features]
-
-    # Handle categorical feature 'Source' using LabelEncoder
-    encoder_source = LabelEncoder()
-    X['Source'] = encoder_source.fit_transform(X['Source'])
-
-    # Optionally scale the Avg_Timestamp and numerical features
-    scaler = StandardScaler()
-    X[['Avg_Timestamp', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration']] = scaler.fit_transform(X[['Avg_Timestamp', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration']])
 
     # Encode the target variable (Group2) using LabelEncoder
     encoder_target = LabelEncoder()
@@ -39,4 +34,4 @@ def load_data(num_features, data_dir):
     # Split the dataset into training and testing sets
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.3, random_state=101, shuffle=True)
 
-    return train_X, train_y, test_X, test_y, used_features, encoder_target, encoder_source
+    return train_X, train_y, test_X, test_y, used_features

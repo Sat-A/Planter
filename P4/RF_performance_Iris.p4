@@ -90,10 +90,10 @@ struct header_t {
 }
 
 struct metadata_t {
-    bit<11> code_f0;
+    bit<10> code_f0;
     bit<9> code_f1;
-    bit<12> code_f2;
-    bit<15> code_f3;
+    bit<10> code_f2;
+    bit<14> code_f3;
     bit<7> sum_prob;
     bit<4> tree_0_vote;
     bit<4> tree_1_vote;
@@ -201,7 +201,7 @@ control SwitchIngress(
         mark_to_drop(ig_intr_md);
     }
 
-    action extract_feature0(out bit<11> meta_code, bit<11> tree){
+    action extract_feature0(out bit<10> meta_code, bit<10> tree){
         meta_code = tree;
     }
 
@@ -209,11 +209,11 @@ control SwitchIngress(
         meta_code = tree;
     }
 
-    action extract_feature2(out bit<12> meta_code, bit<12> tree){
+    action extract_feature2(out bit<10> meta_code, bit<10> tree){
         meta_code = tree;
     }
 
-    action extract_feature3(out bit<15> meta_code, bit<15> tree){
+    action extract_feature3(out bit<14> meta_code, bit<14> tree){
         meta_code = tree;
     }
 
@@ -235,7 +235,7 @@ control SwitchIngress(
             extract_feature1(meta.code_f1);
             NoAction;
             }
-        size = 11;
+        size = 10;
         default_action = NoAction;
     }
 
@@ -246,7 +246,7 @@ control SwitchIngress(
             extract_feature2(meta.code_f2);
             NoAction;
             }
-        size = 20;
+        size = 14;
         default_action = NoAction;
     }
 
@@ -257,7 +257,7 @@ control SwitchIngress(
             extract_feature3(meta.code_f3);
             NoAction;
             }
-        size = 12;
+        size = 11;
         default_action = NoAction;
     }
 
@@ -308,7 +308,7 @@ control SwitchIngress(
 
     @pragma stage 1
     table lookup_leaf_id0 {
-        key = { meta.code_f0[1:0]:exact;
+        key = { meta.code_f0[2:0]:exact;
                 meta.code_f1[1:0]:exact;
                 meta.code_f2[1:0]:exact;
                 meta.code_f3[2:0]:exact;
@@ -317,67 +317,67 @@ control SwitchIngress(
             read_prob0;
             write_default_class0;
         }
-        size = 26;
+        size = 24;
         default_action = write_default_class0;
     }
 
     @pragma stage 1
     table lookup_leaf_id1 {
-        key = { meta.code_f0[3:2]:exact;
-                meta.code_f1[3:2]:exact;
-                meta.code_f2[3:2]:exact;
-                meta.code_f3[5:3]:exact;
+        key = { meta.code_f0[4:3]:exact;
+                meta.code_f1[2:2]:exact;
+                meta.code_f2[4:2]:exact;
+                meta.code_f3[4:3]:exact;
                 }
         actions={
             read_prob1;
             write_default_class1;
         }
-        size = 16;
+        size = 7;
         default_action = write_default_class1;
     }
 
     @pragma stage 1
     table lookup_leaf_id2 {
-        key = { meta.code_f0[5:4]:exact;
-                meta.code_f1[5:4]:exact;
-                meta.code_f2[5:4]:exact;
-                meta.code_f3[8:6]:exact;
+        key = { meta.code_f0[6:5]:exact;
+                meta.code_f1[3:3]:exact;
+                meta.code_f2[6:5]:exact;
+                meta.code_f3[7:5]:exact;
                 }
         actions={
             read_prob2;
             write_default_class2;
         }
-        size = 23;
+        size = 8;
         default_action = write_default_class2;
     }
 
     @pragma stage 1
     table lookup_leaf_id3 {
-        key = { meta.code_f0[8:6]:exact;
-                meta.code_f1[7:6]:exact;
-                meta.code_f2[8:6]:exact;
-                meta.code_f3[11:9]:exact;
+        key = { meta.code_f0[7:7]:exact;
+                meta.code_f1[5:4]:exact;
+                meta.code_f2[7:7]:exact;
+                meta.code_f3[10:8]:exact;
                 }
         actions={
             read_prob3;
             write_default_class3;
         }
-        size = 30;
+        size = 5;
         default_action = write_default_class3;
     }
 
     @pragma stage 1
     table lookup_leaf_id4 {
-        key = { meta.code_f0[10:9]:exact;
-                meta.code_f1[8:8]:exact;
-                meta.code_f2[11:9]:exact;
-                meta.code_f3[14:12]:exact;
+        key = { meta.code_f0[9:8]:exact;
+                meta.code_f1[8:6]:exact;
+                meta.code_f2[9:8]:exact;
+                meta.code_f3[13:11]:exact;
                 }
         actions={
             read_prob4;
             write_default_class4;
         }
-        size = 13;
+        size = 21;
         default_action = write_default_class4;
     }
 

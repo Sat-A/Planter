@@ -70,14 +70,14 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
     config_file = 'src/configs/Planter_config.json'
 
     Planter_config = json.load(open(config_file, 'r'))
-    Planter_config['model config']['number of bits'] = np.int(input('- Number of bits for each action data? (default = 16) ') or '16')
-    Planter_config['model config']['number of classes'] = np.int(np.max(train_y) + 1)
+    Planter_config['model config']['number of bits'] = int(input('- Number of bits for each action data? (default = 16) ') or '16')
+    Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
 
 
     num_bits = Planter_config['model config']['number of bits']
     num_features = Planter_config['data config']['number of features']
     num_classes = Planter_config['model config']['number of classes']
-    num_hps = np.int(num_classes * (num_classes - 1) / 2)
+    num_hps = int(num_classes * (num_classes - 1) / 2)
 
 
 
@@ -114,7 +114,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
     # =================== convert model timer ===================
 
     coe = SVM.coef_
-    int = SVM.intercept_
+    int_var = SVM.intercept_
     
     
     outputfile = 'src/temp/svm.txt'
@@ -123,7 +123,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
         model.write("hyperplane"+str(i)+" = ")
         for f in range(num_features):
             model.write(str(coe[i][f]) + "x"+str(f+1)+" + ")
-        model.write(str(int[i]))
+        model.write(str(int_var[i]))
         model.write(";\n")
     model.close()
     
@@ -132,10 +132,10 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
 
     value_info = {}
     for hp in range(num_hps):
-        SVM_separate_table["bias hp"+str(hp)]=int[hp]
+        SVM_separate_table["bias hp"+str(hp)]=int_var[hp]
         value_info["hp "+str(hp)] = {}
-        value_info["hp " + str(hp)]["max"] = int[hp]
-        value_info["hp " + str(hp)]["min"] = int[hp]
+        value_info["hp " + str(hp)]["max"] = int_var[hp]
+        value_info["hp " + str(hp)]["min"] = int_var[hp]
 
 
 
@@ -169,8 +169,8 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
         min_x = value_info["hp " + str(hp)]["min"]
         max_x = value_info["hp " + str(hp)]["max"]
 
-        Exact_Table['threshold hp' + str(hp)] =   -np.int(scale*((num_features + 1) * min_x))
-        Exact_Table["bias hp" + str(hp)] =  np.int(scale*(x - min_x))
+        Exact_Table['threshold hp' + str(hp)] =   -int(scale*((num_features + 1) * min_x))
+        Exact_Table["bias hp" + str(hp)] =  int(scale*(x - min_x))
 
 
 
@@ -183,7 +183,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
                 min_x = value_info["hp " + str(hp)]["min"]
                 max_x = value_info["hp " + str(hp)]["max"]
 
-                Exact_Table[fn][feature]["hp "+str(hp)] = np.int(scale*(x - min_x))
+                Exact_Table[fn][feature]["hp "+str(hp)] = int(scale*(x - min_x))
 
     # =================== convert model timer ===================
     Planter_config['timer log']['convert model']['end'] = time.time()
@@ -270,7 +270,7 @@ def test_tables(sklearn_test_y, test_X, test_y):
     for i in range(np.shape(test_X.values)[0]):
         class_vote = np.zeros(num_classes).tolist()
         input_feature_value = test_X.values[i]
-        for hp in range(np.int(num_classes * (num_classes - 1) / 2)):
+        for hp in range(int(num_classes * (num_classes - 1) / 2)):
             hp_value = 0
             for f in range(num_features):
                 hp_value += Exact_Table["f"+str(f)][str(input_feature_value[f])]["hp "+str(hp)]
@@ -318,5 +318,3 @@ def resource_prediction():
     Planter_config = json.load(open(config_file, 'r'))
 
     print('Exact match entries: ',np.sum(Planter_config['p4 config']["feature tbl len"]) )
-
-

@@ -1,11 +1,4 @@
-fAA = [61];
-fAB = [33];
-fAC = [24];
-fAD = [14, 16, 17];
- when fAC<=24.5  then 0;
- when fAC>24.5 and fAA<=61.5 and fAD>16.5  then 2;
- when fAC>24.5 and fAA>61.5 and fAB>33.5  then 2;
- when fAC>24.5 and fAA>61.5 and fAB<=33.5 and fAD<=17.0  then 1;
- when fAC>24.5 and fAA>61.5 and fAB<=33.5 and fAD>17.0  then 2;
- when fAC>24.5 and fAA<=61.5 and fAD<=16.5 and fAD<=14.5  then 1;
- when fAC>24.5 and fAA<=61.5 and fAD<=16.5 and fAD>14.5  then 1;
+fAA = [-2, -2, 0];
+fAB = [];
+ when fAA<=0.5  then 1;
+ when fAA>0.5  then 0;

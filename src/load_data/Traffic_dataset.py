@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 
 def load_data(num_features, data_dir):
     data = pd.read_csv(data_dir + '/Traffic/Traffic.csv', usecols=[1,2,3])
-    #print(data)
+    print(data)
     used_features = ['Car_status', 'Rand'][:num_features]
     # Encode the Car_status as it is already numeric
     X = data[used_features]

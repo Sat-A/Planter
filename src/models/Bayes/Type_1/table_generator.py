@@ -61,8 +61,8 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
     config_file = 'src/configs/Planter_config.json'
 
     Planter_config = json.load(open(config_file, 'r'))
-    Planter_config['model config']['number of bits'] = np.int(input('- Number of bits for each action data? (default = 16) ') or '16')
-    Planter_config['model config']['number of classes'] = np.int(np.max(train_y) + 1)
+    Planter_config['model config']['number of bits'] = int(input('- Number of bits for each action data? (default = 16) ') or '16')
+    Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
 
     num_bits = Planter_config['model config']['number of bits']
     num_features = Planter_config['data config']['number of features']
@@ -150,7 +150,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
         x = copy.deepcopy(Bayes_separate_table['class prob']['class '+str(c)])
         # x = copy.deepcopy(int(scale * Bayes_separate_table['class prob']['class ' + str(c)]))
         value = Single_MaxMinNormalization(x, min_x, max_x)
-        Exact_Table['class prob']['class '+str(c)] = np.int(np.round(value*scale))
+        Exact_Table['class prob']['class '+str(c)] = int(np.round(value*scale))
 
 
     for f in range(num_features):
@@ -162,7 +162,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
                 max_x = value_info["max"]
                 x = Bayes_separate_table['feature '+str(f)][inputs]["class "+str(c)]
                 value = Single_MaxMinNormalization(x, min_x, max_x)
-                Exact_Table['feature '+str(f)][inputs]["class "+str(c)] = np.int(np.round(value*scale))
+                Exact_Table['feature '+str(f)][inputs]["class "+str(c)] = int(np.round(value*scale))
 
     # =================== convert model timer ===================
     Planter_config['timer log']['convert model']['end'] = time.time()
