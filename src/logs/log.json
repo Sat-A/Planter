@@ -2,7 +2,7 @@
     "num_feature: 3": {
         "num_tree: 5": {
             "num_depth: 4": {
-                "classification_report": "              precision    recall  f1-score   support\n\n           0      0.887     0.997     0.939    443752\n           1      0.871     0.120     0.211     64256\n\n    accuracy                          0.886    508008\n   macro avg      0.879     0.559     0.575    508008\nweighted avg      0.885     0.886     0.847    508008\n",
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.6000    1.0000    0.7500         3\n           1     1.0000    0.8889    0.9412         9\n           2     0.9865    0.9733    0.9799        75\n           3     0.8000    0.8000    0.8000         5\n\n    accuracy                         0.9565        92\n   macro avg     0.8466    0.9156    0.8678        92\nweighted avg     0.9651    0.9565    0.9588        92\n",
                 "max number of leaf nodes": 1000
             },
             "num_depth: 3": {
@@ -37,6 +37,12 @@
             },
             "num_depth: 4": {
                 "classification_report": "              precision    recall  f1-score   support\n\n           0      1.000     1.000     1.000        13\n           1      0.950     0.950     0.950        20\n           2      0.917     0.917     0.917        12\n\n    accuracy                          0.956        45\n   macro avg      0.956     0.956     0.956        45\nweighted avg      0.956     0.956     0.956        45\n",
+                "max number of leaf nodes": 1000
+            }
+        },
+        "num_tree: 4": {
+            "num_depth: 4": {
+                "classification_report": "              precision    recall  f1-score   support\n\n           0     0.6000    1.0000    0.7500         3\n           1     1.0000    1.0000    1.0000         9\n           2     1.0000    0.9733    0.9865        75\n           3     1.0000    1.0000    1.0000         5\n\n    accuracy                         0.9783        92\n   macro avg     0.9000    0.9933    0.9341        92\nweighted avg     0.9870    0.9783    0.9808        92\n",
                 "max number of leaf nodes": 1000
             }
         }

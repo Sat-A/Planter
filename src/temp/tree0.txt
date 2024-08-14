@@ -1,7 +1,10 @@
-fA = [3961, 28106, 30998];
+fA = [37812, 40702];
 fB = [];
 fC = [];
- when fA>28106.0 and fA<=30998.0  then 3;
- when fA>28106.0 and fA>30998.0  then 1;
- when fA<=28106.0 and fA<=3961.0  then 0;
- when fA<=28106.0 and fA>3961.0  then 2;
+fD = [];
+fE = [];
+fF = [];
+fG = [];
+ when fA>40702.0  then 0;
+ when fA<=40702.0 and fA<=37812.0  then 1;
+ when fA<=40702.0 and fA>37812.0  then 2;

@@ -1,7 +1,11 @@
-fAA = [-2, -2, -2, -2, -2, 0, 0];
-fAB = [42, 47];
- when fAB<=42.5 and fAA<=0.5  then 1;
- when fAB<=42.5 and fAA>0.5  then 0;
- when fAB>42.5 and fAB<=47.0  then 0;
- when fAB>42.5 and fAB>47.0 and fAA<=0.5  then 1;
- when fAB>42.5 and fAB>47.0 and fAA>0.5  then 0;
+fA = [4358, 28106, 28204, 30744, 31058];
+fB = [4, 5];
+fC = [];
+ when fB>5.5 and fA<=28106.0 and fA<=4358.0  then 0;
+ when fB>5.5 and fA<=28106.0 and fA>4358.0  then 2;
+ when fB>5.5 and fA>28106.0 and fA<=30744.5  then 3;
+ when fB>5.5 and fA>28106.0 and fA>30744.5  then 1;
+ when fB<=5.5 and fB<=4.5  then 2;
+ when fB<=5.5 and fB>4.5 and fA<=28204.0  then 2;
+ when fB<=5.5 and fB>4.5 and fA>28204.0 and fA<=31058.5  then 3;
+ when fB<=5.5 and fB>4.5 and fA>28204.0 and fA>31058.5  then 1;

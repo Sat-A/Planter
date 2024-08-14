@@ -23,12 +23,11 @@ import numpy as np
 from scapy.all import *
 from sklearn.metrics import *
 from multiprocessing import *
-from scipy.stats import pearsonr
-import copy
 import readline
 import time
-print('Predicted load table time ... (0.016s)')
-time.sleep(0.016)
+import os
+print('Predicted load table time ... (5.167s)')
+time.sleep(5.167)
 class Planter(Packet):
     name = 'Planter'
     fields_desc = [StrFixedLenField('P', 'P', length=1),
@@ -37,25 +36,23 @@ class Planter(Packet):
         XByteField('type', 0x01),
         IntField('feature0', 0),
         IntField('feature1', 0),
+        IntField('feature2', 0),
         IntField('result', 0xDEADBABE)]
 
 bind_layers(Ether, Planter, type=0x1234)
 
-config_file = '/home/p4/Planter/src/configs/Planter_config.json'
-num_components = 2
 config_file = '/home/p4/Planter/src/temp/Test_Data.json'
 Test_Data = json.load(open(config_file, 'r'))
 sklearn_test_y = Test_Data['sklearn_test_y']
 test_X = Test_Data['test_X']
 test_y = Test_Data['test_y']
 
-def send_receive_extract(pkt, iface, received_result0, received_result1):
+def send_receive_extract(pkt, iface, received_result):
     resp = srp1(pkt, iface=iface, timeout=1, verbose=False)
     if resp:
         receive_info = resp[Planter]
         if receive_info:
-            received_result0.value = (int(receive_info.feature0))
-            received_result1.value = (int(receive_info.feature1))
+            received_result.value = int(receive_info.result)
         else:
             print('\rCannot find Planter header in the {}th packet |'.format(i), end='')
     else:
@@ -69,25 +66,29 @@ same = 0
 correct = 0
 error = 0
 switch_test_y = []
-sklearn_test_x = copy.deepcopy(sklearn_test_y)
-switch_test_x = copy.deepcopy(sklearn_test_y)
 
 for i in range(np.shape(test_X)[0]):
     iface = 'eth0'
-    pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / Planter( feature0 = int(test_X[i][0]), feature1 = int(test_X[i][1]), result  = int(404))
+    pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / Planter( feature0 = int(test_X[i][0]), feature1 = int(test_X[i][1]), feature2 = int(test_X[i][2]), result  = int(404))
     pkt = pkt/' '
 
-    received_result0 = Manager().Value('i', 404)
-    received_result1 = Manager().Value('i', 404)
+    received_result = Manager().Value('i', 404)
 
-    s_r_e = Process(target=send_receive_extract, args=(pkt,iface,received_result0,received_result1,))
+    s_r_e = Process(target=send_receive_extract, args=(pkt,iface,received_result,))
     s_r_e.daemon = True
     s_r_e.start()
     s_r_e.join()
 
-    switch_test_x[i][0] = received_result0.value
-    switch_test_x[i][1] = received_result1.value
-for ax in range(num_components):
-    corr, _ = pearsonr(np.array(sklearn_test_x)[:, ax], np.array(switch_test_x)[:, ax])
-    print('Pearsons correlation of M/A result and output of Pytorch for axis '+str(ax)+' is: %.3f' % corr)
+    switch_prediction = received_result.value
+    switch_test_y += [switch_prediction]
+
+    if switch_prediction == test_y[i]:
+        correct += 1
+    if switch_prediction == sklearn_test_y[i]:
+        same += 1
+    else:
+        error += 1
+    print( '\rSwitch model {}th prediction: {}, test_y: {}, with acc: {:.3}, with acc to sklearn: {:.4}, with error: {:.4}, M/A format macro f1: {:.4}, macro f1: {:.4}'.format(i+1, switch_prediction, test_y[i], correct / (i + 1), same / (i + 1), error / (i + 1), accuracy_score(switch_test_y[:i+1], test_y[:i+1]), accuracy_score(sklearn_test_y[:i+1], test_y[:i+1])), end='')
+result = classification_report(switch_test_y, test_y, digits=4)
+print('\n\n', result)
 print("======================================= Test Finished ========================================")

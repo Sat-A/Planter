@@ -1,42 +1,20 @@
 booster[0]:
-0:[f2<30] yes=1,no=2,missing=2
-	1:leaf=1.41401279
-	2:leaf=-0.725978732
+0:[f0<4214] yes=1,no=2,missing=2
+	1:leaf=1.54285717
+	2:leaf=-0.65810591
 booster[1]:
-0:[f2<30] yes=1,no=2,missing=2
-	1:leaf=-0.707006454
-	2:[f3<17] yes=3,no=4,missing=4
-		3:[f2<50] yes=5,no=6,missing=6
-			5:leaf=1.38842976
-			6:leaf=-2.5544848e-08
-		4:[f2<49] yes=7,no=8,missing=8
-			7:leaf=-0.120000027
-			8:leaf=-0.702127695
+0:[f0<31108] yes=1,no=2,missing=2
+	1:leaf=-0.657342672
+	2:leaf=1.81395352
 booster[2]:
-0:[f3<17] yes=1,no=2,missing=2
-	1:[f2<50] yes=3,no=4,missing=4
-		3:leaf=-0.7249071
-		4:leaf=0.428571403
-	2:leaf=1.3566879
+0:[f0<28202] yes=1,no=2,missing=2
+	1:[f0<4214] yes=3,no=4,missing=4
+		3:leaf=-0.514285743
+		4:leaf=1.96680498
+	2:leaf=-0.630872488
 booster[3]:
-0:[f2<30] yes=1,no=2,missing=2
-	1:leaf=0.569266856
-	2:leaf=-0.515209794
-booster[4]:
-0:[f2<30] yes=1,no=2,missing=2
-	1:leaf=-0.47956866
-	2:[f2<50] yes=3,no=4,missing=4
-		3:[f3<17] yes=5,no=6,missing=6
-			5:leaf=0.557264447
-			6:leaf=0.0966684744
-		4:[f3<17] yes=7,no=8,missing=8
-			7:leaf=0.00268988963
-			8:leaf=-0.47554493
-booster[5]:
-0:[f2<50] yes=1,no=2,missing=2
-	1:[f3<17] yes=3,no=4,missing=4
-		3:leaf=-0.508159637
-		4:leaf=0.0855326429
-	2:[f3<17] yes=5,no=6,missing=6
-		5:leaf=0.189854473
-		6:leaf=0.570664167
+0:[f0<28202] yes=1,no=2,missing=2
+	1:leaf=-0.656188607
+	2:[f0<31108] yes=3,no=4,missing=4
+		3:leaf=1.77464783
+		4:leaf=-0.604651153

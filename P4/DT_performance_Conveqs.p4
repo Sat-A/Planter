@@ -34,6 +34,8 @@
  * +----------------+----------------+----------------+---------------+
  * |                              feature1                            |
  * +----------------+----------------+----------------+---------------+
+ * |                              feature2                            |
+ * +----------------+----------------+----------------+---------------+
  * |                              Result                              |
  * +----------------+----------------+----------------+---------------+
  *
@@ -75,6 +77,7 @@ header Planter_h{
     bit<8> typ;
     bit<32> feature0;
     bit<32> feature1;
+    bit<32> feature2;
     bit<32> result;
 }
 
@@ -84,10 +87,14 @@ struct header_t {
 }
 
 struct metadata_t {
-    bit<32> middle_ax0;
-    bit<32> middle_ax1;
+    bit<3> code_f0;
+    bit<1> code_f1;
+    bit<1> code_f2;
+    bit<7> sum_prob;
+    bit<32>  DstAddr;
     bit<32> feature0;
     bit<32> feature1;
+    bit<32> feature2;
     bit<32> result;
     bit<8> flag ;
 }
@@ -127,6 +134,7 @@ parser SwitchParser(
         pkt.extract(hdr.Planter);
         meta.feature0 = hdr.Planter.feature0;
         meta.feature1 = hdr.Planter.feature1;
+        meta.feature2 = hdr.Planter.feature2;
         meta.flag = 1 ;
         transition accept;
     }
@@ -177,58 +185,66 @@ control SwitchIngress(
         mark_to_drop(ig_intr_md);
     }
 
-    action extract_feature0(bit<16> f0ax0, bit<16> f0ax1){
-        meta.middle_ax0 = meta.middle_ax0 + (bit<32>)f0ax0;
-        meta.middle_ax1 = meta.middle_ax1 + (bit<32>)f0ax1;
+    action extract_feature0(out bit<3> meta_code, bit<3> tree){
+        meta_code = tree;
     }
 
-    action extract_feature1(bit<16> f1ax0, bit<16> f1ax1){
-        meta.middle_ax0 = meta.middle_ax0 + (bit<32>)f1ax0;
-        meta.middle_ax1 = meta.middle_ax1 + (bit<32>)f1ax1;
+    action extract_feature1(out bit<1> meta_code, bit<1> tree){
+        meta_code = tree;
+    }
+
+    action extract_feature2(out bit<1> meta_code, bit<1> tree){
+        meta_code = tree;
+    }
+
+    action read_lable(bit<32> label){
+        meta.result = label;
     }
 
     table lookup_feature0 {
         key = { meta.feature0:exact; }
         actions = {
-            extract_feature0();
+            extract_feature0(meta.code_f0);
             NoAction;
             }
-        size = 2;
+        size = 34101;
         default_action = NoAction;
     }
 
     table lookup_feature1 {
         key = { meta.feature1:exact; }
         actions = {
-            extract_feature1();
+            extract_feature1(meta.code_f1);
             NoAction;
             }
-        size = 101;
+        size = 17;
         default_action = NoAction;
     }
 
-    action read_bias(bit<16> bias_ax0, bit<16> bias_ax1){
-        meta.middle_ax0 = (bit<32>)bias_ax0;
-        meta.middle_ax1 = (bit<32>)bias_ax1;
-    }
-
-    table bias {
-        key = {meta.flag:exact;}
-        actions={read_bias; NoAction;}
+    table lookup_feature2 {
+        key = { meta.feature2:exact; }
+        actions = {
+            extract_feature2(meta.code_f2);
+            NoAction;
+            }
+        size = 324;
         default_action = NoAction;
-        size = 1;
     }
 
-    action wrap_back( ){
-        meta.feature0 = meta.middle_ax0;
-        meta.feature1 = meta.middle_ax1;
+    table decision {
+        key = { meta.code_f0[2:0]:exact;
+                meta.code_f1[0:0]:exact;
+                meta.code_f2[0:0]:exact;
+                }
+        actions={read_lable;}
+        size = 4;
     }
 
     apply{
-        bias.apply();
         lookup_feature0.apply();
         lookup_feature1.apply();
-        wrap_back();
+        lookup_feature2.apply();
+        decision.apply();
         send(ig_intr_md.ingress_port);
     }
 }

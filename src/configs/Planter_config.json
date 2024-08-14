@@ -8,44 +8,56 @@
         "type": "1",
         "number of depth": 4,
         "max number of leaf nodes": 1000,
-        "number of classes": 4,
+        "number of classes": 3,
         "test table": "y"
     },
     "data config": {
         "dataset": "Conveqs",
-        "number of features": 3,
+        "number of features": 7,
         "testing mode": "n"
     },
     "timer log": {
         "load data": {
-            "start": 1723478429.2767286,
-            "end": 1723478429.3249905
+            "start": 1723630648.067158,
+            "end": 1723630648.0753286
         },
         "python-based test": {
-            "start": 1723478466.4576306,
-            "end": 1723478466.7608173
+            "start": 1723630666.2248526,
+            "end": 1723630666.4510489
         }
     },
     "p4 config": {
         "model": "DT",
-        "number of features": 3,
-        "number of classes": 4,
+        "number of features": 7,
+        "number of classes": 3,
         "table name": "Exact_Table.json",
-        "code table size": 4,
+        "code table size": 3,
         "width of feature": [
             17,
-            6,
-            10
+            2,
+            8,
+            12,
+            15,
+            2,
+            2
         ],
         "width of code": [
             3.0,
             1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
             1.0
         ],
         "used columns": [
-            34101,
-            17,
-            324
+            58811,
+            2,
+            111,
+            1517,
+            15701,
+            2,
+            2
         ],
         "width of probability": 7,
         "width of result": 8

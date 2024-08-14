@@ -29,7 +29,7 @@ table = json.load(open('./Tables/Exact_Table.json','r'))
 Planter_config = json.load(open('./src/configs/Planter_config.json','r'))
 config = Planter_config['p4 config']
 
-Ingress = bfrt.Autoencoder_performance_Traffic.pipe.SwitchIngress
+Ingress = bfrt.DT_performance_Conveqs.pipe.SwitchIngress
 Ingress.clear()
 
 def ten_to_bin(num, count):
@@ -42,13 +42,21 @@ def ten_to_bin(num, count):
 print('load feature 0 table with',len(table['feature 0'].keys()),'entries')
 for k in range(len(table['feature 0'].keys())):
     key = str(k)
-    Ingress.lookup_feature0.add_with_extract_feature0(int(key), table['feature 0'][key]['ax0'], table['feature 0'][key]['ax1'])
-
+    codes = ''
+    codes = ten_to_bin(int(table['feature 0'][key]), int(config['width of code'][0])) + codes
+    Ingress.lookup_feature0.add_with_extract_feature0(int(key), int(codes,2))
 print('load feature 1 table with',len(table['feature 1'].keys()),'entries')
 for k in range(len(table['feature 1'].keys())):
     key = str(k)
-    Ingress.lookup_feature1.add_with_extract_feature1(int(key), table['feature 1'][key]['ax0'], table['feature 1'][key]['ax1'])
-
-print('load_bias table with 1 entries')
-Ingress.bias.add_with_read_bias(1, table['bias']['ax0'], table['bias']['ax1'])
-
+    codes = ''
+    codes = ten_to_bin(int(table['feature 1'][key]), int(config['width of code'][1])) + codes
+    Ingress.lookup_feature1.add_with_extract_feature1(int(key), int(codes,2))
+print('load feature 2 table with',len(table['feature 2'].keys()),'entries')
+for k in range(len(table['feature 2'].keys())):
+    key = str(k)
+    codes = ''
+    codes = ten_to_bin(int(table['feature 2'][key]), int(config['width of code'][2])) + codes
+    Ingress.lookup_feature2.add_with_extract_feature2(int(key), int(codes,2))
+print('load tree (code/code to vote) table with',len(table['code to vote'].keys()),'entries')
+for key in table['code to vote']:
+    Ingress.decision.add_with_read_lable(table['code to vote'][key]['f0 code'], table['code to vote'][key]['f1 code'], table['code to vote'][key]['f2 code'],  int(table['code to vote'][key]['leaf']))
