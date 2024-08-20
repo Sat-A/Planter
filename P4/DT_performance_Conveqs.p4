@@ -36,6 +36,14 @@
  * +----------------+----------------+----------------+---------------+
  * |                              feature2                            |
  * +----------------+----------------+----------------+---------------+
+ * |                              feature3                            |
+ * +----------------+----------------+----------------+---------------+
+ * |                              feature4                            |
+ * +----------------+----------------+----------------+---------------+
+ * |                              feature5                            |
+ * +----------------+----------------+----------------+---------------+
+ * |                              feature6                            |
+ * +----------------+----------------+----------------+---------------+
  * |                              Result                              |
  * +----------------+----------------+----------------+---------------+
  *
@@ -78,6 +86,10 @@ header Planter_h{
     bit<32> feature0;
     bit<32> feature1;
     bit<32> feature2;
+    bit<32> feature3;
+    bit<32> feature4;
+    bit<32> feature5;
+    bit<32> feature6;
     bit<32> result;
 }
 
@@ -87,14 +99,22 @@ struct header_t {
 }
 
 struct metadata_t {
-    bit<3> code_f0;
+    bit<5> code_f0;
     bit<1> code_f1;
     bit<1> code_f2;
+    bit<2> code_f3;
+    bit<1> code_f4;
+    bit<1> code_f5;
+    bit<1> code_f6;
     bit<7> sum_prob;
     bit<32>  DstAddr;
     bit<32> feature0;
     bit<32> feature1;
     bit<32> feature2;
+    bit<32> feature3;
+    bit<32> feature4;
+    bit<32> feature5;
+    bit<32> feature6;
     bit<32> result;
     bit<8> flag ;
 }
@@ -135,6 +155,10 @@ parser SwitchParser(
         meta.feature0 = hdr.Planter.feature0;
         meta.feature1 = hdr.Planter.feature1;
         meta.feature2 = hdr.Planter.feature2;
+        meta.feature3 = hdr.Planter.feature3;
+        meta.feature4 = hdr.Planter.feature4;
+        meta.feature5 = hdr.Planter.feature5;
+        meta.feature6 = hdr.Planter.feature6;
         meta.flag = 1 ;
         transition accept;
     }
@@ -185,7 +209,7 @@ control SwitchIngress(
         mark_to_drop(ig_intr_md);
     }
 
-    action extract_feature0(out bit<3> meta_code, bit<3> tree){
+    action extract_feature0(out bit<5> meta_code, bit<5> tree){
         meta_code = tree;
     }
 
@@ -194,6 +218,22 @@ control SwitchIngress(
     }
 
     action extract_feature2(out bit<1> meta_code, bit<1> tree){
+        meta_code = tree;
+    }
+
+    action extract_feature3(out bit<2> meta_code, bit<2> tree){
+        meta_code = tree;
+    }
+
+    action extract_feature4(out bit<1> meta_code, bit<1> tree){
+        meta_code = tree;
+    }
+
+    action extract_feature5(out bit<1> meta_code, bit<1> tree){
+        meta_code = tree;
+    }
+
+    action extract_feature6(out bit<1> meta_code, bit<1> tree){
         meta_code = tree;
     }
 
@@ -207,7 +247,7 @@ control SwitchIngress(
             extract_feature0(meta.code_f0);
             NoAction;
             }
-        size = 34101;
+        size = 99923;
         default_action = NoAction;
     }
 
@@ -217,7 +257,7 @@ control SwitchIngress(
             extract_feature1(meta.code_f1);
             NoAction;
             }
-        size = 17;
+        size = 2;
         default_action = NoAction;
     }
 
@@ -227,23 +267,71 @@ control SwitchIngress(
             extract_feature2(meta.code_f2);
             NoAction;
             }
-        size = 324;
+        size = 251;
+        default_action = NoAction;
+    }
+
+    table lookup_feature3 {
+        key = { meta.feature3:exact; }
+        actions = {
+            extract_feature3(meta.code_f3);
+            NoAction;
+            }
+        size = 1289;
+        default_action = NoAction;
+    }
+
+    table lookup_feature4 {
+        key = { meta.feature4:exact; }
+        actions = {
+            extract_feature4(meta.code_f4);
+            NoAction;
+            }
+        size = 41487;
+        default_action = NoAction;
+    }
+
+    table lookup_feature5 {
+        key = { meta.feature5:exact; }
+        actions = {
+            extract_feature5(meta.code_f5);
+            NoAction;
+            }
+        size = 2;
+        default_action = NoAction;
+    }
+
+    table lookup_feature6 {
+        key = { meta.feature6:exact; }
+        actions = {
+            extract_feature6(meta.code_f6);
+            NoAction;
+            }
+        size = 2;
         default_action = NoAction;
     }
 
     table decision {
-        key = { meta.code_f0[2:0]:exact;
+        key = { meta.code_f0[4:0]:exact;
                 meta.code_f1[0:0]:exact;
                 meta.code_f2[0:0]:exact;
+                meta.code_f3[1:0]:exact;
+                meta.code_f4[0:0]:exact;
+                meta.code_f5[0:0]:exact;
+                meta.code_f6[0:0]:exact;
                 }
         actions={read_lable;}
-        size = 4;
+        size = 22;
     }
 
     apply{
         lookup_feature0.apply();
         lookup_feature1.apply();
         lookup_feature2.apply();
+        lookup_feature3.apply();
+        lookup_feature4.apply();
+        lookup_feature5.apply();
+        lookup_feature6.apply();
         decision.apply();
         send(ig_intr_md.ingress_port);
     }

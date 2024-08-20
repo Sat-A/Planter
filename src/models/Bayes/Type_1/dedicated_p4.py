@@ -144,8 +144,8 @@ def write_compare(c_n, con_list, num_class, txt):
                     compare[0] = d+1
             compare[1] = c_n+1
             if con == 'if':
-                txt.write("        meta.compare" +str(np.int(compare[0])) +"_"+str(np.int(compare[1]))
-                          +" = meta.prob_c" +str(np.int(compare[0])) +" - meta.prob_c"+str(np.int(compare[1]))+";\n")
+                txt.write("        meta.compare" +str(int(compare[0])) +"_"+str(int(compare[1]))
+                          +" = meta.prob_c" +str(int(compare[0])) +" - meta.prob_c"+str(int(compare[1]))+";\n")
 
             c_n += 1
             write_compare(c_n, con_list, num_class, txt)
@@ -156,7 +156,7 @@ def write_compare(c_n, con_list, num_class, txt):
 
 def do_compare(c_n, con_list, num_class, txt, label, config):
     if c_n == num_class-1:
-        txt.write("         "+c_n*"    "+"meta.result = "+str(np.int(label))+";\n"
+        txt.write("         "+c_n*"    "+"meta.result = "+str(int(label))+";\n"
                   "         "+(c_n-1)*"    "+"}\n")
         return
     else:
@@ -170,7 +170,7 @@ def do_compare(c_n, con_list, num_class, txt, label, config):
             if con == 'if':
                 label = compare[1]
                 txt.write("        "+c_n*"    "+con+"(meta.compare"
-                          +str(np.int(compare[0]))+"_"+str(np.int(compare[1]))+"& 0b1"
+                          +str(int(compare[0]))+"_"+str(int(compare[1]))+"& 0b1"
                           +(config['num_bits']-1)*"0"+"!=0){\n") #<0
             else:
                 label = compare[0]

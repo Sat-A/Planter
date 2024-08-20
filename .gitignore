@@ -4,6 +4,7 @@ Data/
 QCMP/
 protobuf
 __pycache__/
+*.json
 *.py[cod]
 *$py.class
 # C extensions

@@ -28,9 +28,9 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
     config_file = 'src/configs/Planter_config.json'
 
     Planter_config = json.load(open(config_file, 'r'))
-    Planter_config['model config']['number of classes'] = np.int(np.max(train_y) + 1)
-    Planter_config['model config']['num components'] = np.int(input('- Number components? (default = 2) ') or '2')
-    Planter_config['model config']['number of bits'] = np.int( input('- Number of bits for each action data? (default = 16) ') or '16')
+    Planter_config['model config']['number of classes'] = int(np.max(train_y) + 1)
+    Planter_config['model config']['num components'] = int(input('- Number components? (default = 2) ') or '2')
+    Planter_config['model config']['number of bits'] = int( input('- Number of bits for each action data? (default = 16) ') or '16')
 
     num_bits = Planter_config['model config']['number of bits']
 
@@ -108,7 +108,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
             Exact_Table['feature ' + str(f)][input_value] = {}
             for ax in range(num_components):
                 middle_value = copy.deepcopy(PCA_Table['feature ' + str(f)][input_value]['ax' + str(ax)])
-                middle_value = np.int(np.floor((middle_value - value_info["min"])*scale))
+                middle_value = int(np.floor((middle_value - value_info["min"])*scale))
                 Exact_Table['feature ' + str(f)][input_value]['ax' + str(ax)] = middle_value
 
     # =================== convert model timer ===================

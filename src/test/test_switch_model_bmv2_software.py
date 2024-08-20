@@ -26,8 +26,8 @@ from multiprocessing import *
 import readline
 import time
 import os
-print('Predicted load table time ... (5.167s)')
-time.sleep(5.167)
+print('Predicted load table time ... (20.828s)')
+time.sleep(20.828)
 class Planter(Packet):
     name = 'Planter'
     fields_desc = [StrFixedLenField('P', 'P', length=1),
@@ -37,6 +37,11 @@ class Planter(Packet):
         IntField('feature0', 0),
         IntField('feature1', 0),
         IntField('feature2', 0),
+        IntField('feature3', 0),
+        IntField('feature4', 0),
+        IntField('feature5', 0),
+        IntField('feature6', 0),
+        IntField('feature7', 0),
         IntField('result', 0xDEADBABE)]
 
 bind_layers(Ether, Planter, type=0x1234)
@@ -69,7 +74,7 @@ switch_test_y = []
 
 for i in range(np.shape(test_X)[0]):
     iface = 'eth0'
-    pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / Planter( feature0 = int(test_X[i][0]), feature1 = int(test_X[i][1]), feature2 = int(test_X[i][2]), result  = int(404))
+    pkt = Ether(dst='00:04:00:00:00:00', type=0x1234) / Planter( feature0 = int(test_X[i][0]), feature1 = int(test_X[i][1]), feature2 = int(test_X[i][2]), feature3 = int(test_X[i][3]), feature4 = int(test_X[i][4]), feature5 = int(test_X[i][5]), feature6 = int(test_X[i][6]), feature7 = int(test_X[i][7]), result  = int(404))
     pkt = pkt/' '
 
     received_result = Manager().Value('i', 404)

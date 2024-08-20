@@ -17,13 +17,14 @@ def load_data(num_features, data_dir):
     # Load the combined dataset
     data = pd.read_csv(data_dir + '/Conveqs/conveqs.csv') 
     # Select the features to be used in the model, including 'Source'
-    feature_columns = ['Avg_Timestamp', 'Source', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration', 'Approaching', 'Accelerating']
+    feature_columns = ['Avg_Timestamp', 'Source', 'N_Objects', 'Avg_Speed', 'Avg_Acceleration', 'Approaching', 'Accelerating', 'Prev_Group']
     
     # Ensure that only the required number of features are used
     used_features = feature_columns[:num_features]
     
     # Extract the features (X)
     X = data[used_features]
+    #print(X)
     
     # Label encode the categorical features
     encoder = LabelEncoder()
@@ -37,14 +38,18 @@ def load_data(num_features, data_dir):
     if 'Accelerating' in used_features:
         X['Accelerating'] = encoder.fit_transform(X['Accelerating'])
     
+    if 'Prev_Group' in used_features:
+        X['Prev_Group'] = encoder.fit_transform(X['Prev_Group'])
+
     # Apply custom scaling for integer features
     X['Avg_Timestamp'] = (X['Avg_Timestamp'] % 100000).astype(int)
     X['N_Objects'] = (X['N_Objects'] * 10).astype(int)
     X['Avg_Speed'] = (X['Avg_Speed'] * 100).astype(int)
     X['Avg_Acceleration'] = (X['Avg_Acceleration'] * 10000).astype(int)
+    print(X)
     
-    # Encode the target variable (Group2) using LabelEncoder
-    y = encoder.fit_transform(data['Group2'])
+    # Encode the target variable (Group) using LabelEncoder
+    y = encoder.fit_transform(data['Group'])
     
     # Split the dataset into training and testing sets
     train_X, test_X, train_y, test_y = train_test_split(X, y, test_size=0.3, random_state=101, shuffle=True)

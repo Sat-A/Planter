@@ -105,7 +105,7 @@ def run_model(train_X, train_y, test_X, test_y, used_features):
         model_parmeters['c'+str(c)] = {}
         for f in range(num_features):
             model_parmeters['c' + str(c)]["f"+str(f)] = {}
-            model_parmeters['c' + str(c)]["f"+str(f)]['std'] = np.sqrt(clf.sigma_[c,f])
+            model_parmeters['c' + str(c)]["f"+str(f)]['std'] = np.sqrt(clf.var_[c,f])
             model_parmeters['c' + str(c)]["f"+str(f)]['mean'] = clf.theta_[c,f]
 
     value_info = {}

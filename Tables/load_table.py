@@ -29,7 +29,7 @@ table = json.load(open('./Tables/Exact_Table.json','r'))
 Planter_config = json.load(open('./src/configs/Planter_config.json','r'))
 config = Planter_config['p4 config']
 
-Ingress = bfrt.DT_performance_Conveqs.pipe.SwitchIngress
+Ingress = bfrt.Bayes_performance_Conveqs.pipe.SwitchIngress
 Ingress.clear()
 
 def ten_to_bin(num, count):
@@ -42,21 +42,43 @@ def ten_to_bin(num, count):
 print('load feature 0 table with',len(table['feature 0'].keys()),'entries')
 for k in range(len(table['feature 0'].keys())):
     key = str(k)
-    codes = ''
-    codes = ten_to_bin(int(table['feature 0'][key]), int(config['width of code'][0])) + codes
-    Ingress.lookup_feature0.add_with_extract_feature0(int(key), int(codes,2))
+    Ingress.lookup_feature0.add_with_extract_feature0(int(key), table['feature 0'][key]['class 0'], table['feature 0'][key]['class 1'], table['feature 0'][key]['class 2'], table['feature 0'][key]['class 3'], table['feature 0'][key]['class 4'], table['feature 0'][key]['class 5'], table['feature 0'][key]['class 6'], table['feature 0'][key]['class 7'], table['feature 0'][key]['class 8'], table['feature 0'][key]['class 9'], table['feature 0'][key]['class 10'], table['feature 0'][key]['class 11'], table['feature 0'][key]['class 12'], table['feature 0'][key]['class 13'], table['feature 0'][key]['class 14'], table['feature 0'][key]['class 15'], table['feature 0'][key]['class 16'], table['feature 0'][key]['class 17'], table['feature 0'][key]['class 18'], table['feature 0'][key]['class 19'], table['feature 0'][key]['class 20'])
+
 print('load feature 1 table with',len(table['feature 1'].keys()),'entries')
 for k in range(len(table['feature 1'].keys())):
     key = str(k)
-    codes = ''
-    codes = ten_to_bin(int(table['feature 1'][key]), int(config['width of code'][1])) + codes
-    Ingress.lookup_feature1.add_with_extract_feature1(int(key), int(codes,2))
+    Ingress.lookup_feature1.add_with_extract_feature1(int(key), table['feature 1'][key]['class 0'], table['feature 1'][key]['class 1'], table['feature 1'][key]['class 2'], table['feature 1'][key]['class 3'], table['feature 1'][key]['class 4'], table['feature 1'][key]['class 5'], table['feature 1'][key]['class 6'], table['feature 1'][key]['class 7'], table['feature 1'][key]['class 8'], table['feature 1'][key]['class 9'], table['feature 1'][key]['class 10'], table['feature 1'][key]['class 11'], table['feature 1'][key]['class 12'], table['feature 1'][key]['class 13'], table['feature 1'][key]['class 14'], table['feature 1'][key]['class 15'], table['feature 1'][key]['class 16'], table['feature 1'][key]['class 17'], table['feature 1'][key]['class 18'], table['feature 1'][key]['class 19'], table['feature 1'][key]['class 20'])
+
 print('load feature 2 table with',len(table['feature 2'].keys()),'entries')
 for k in range(len(table['feature 2'].keys())):
     key = str(k)
-    codes = ''
-    codes = ten_to_bin(int(table['feature 2'][key]), int(config['width of code'][2])) + codes
-    Ingress.lookup_feature2.add_with_extract_feature2(int(key), int(codes,2))
-print('load tree (code/code to vote) table with',len(table['code to vote'].keys()),'entries')
-for key in table['code to vote']:
-    Ingress.decision.add_with_read_lable(table['code to vote'][key]['f0 code'], table['code to vote'][key]['f1 code'], table['code to vote'][key]['f2 code'],  int(table['code to vote'][key]['leaf']))
+    Ingress.lookup_feature2.add_with_extract_feature2(int(key), table['feature 2'][key]['class 0'], table['feature 2'][key]['class 1'], table['feature 2'][key]['class 2'], table['feature 2'][key]['class 3'], table['feature 2'][key]['class 4'], table['feature 2'][key]['class 5'], table['feature 2'][key]['class 6'], table['feature 2'][key]['class 7'], table['feature 2'][key]['class 8'], table['feature 2'][key]['class 9'], table['feature 2'][key]['class 10'], table['feature 2'][key]['class 11'], table['feature 2'][key]['class 12'], table['feature 2'][key]['class 13'], table['feature 2'][key]['class 14'], table['feature 2'][key]['class 15'], table['feature 2'][key]['class 16'], table['feature 2'][key]['class 17'], table['feature 2'][key]['class 18'], table['feature 2'][key]['class 19'], table['feature 2'][key]['class 20'])
+
+print('load feature 3 table with',len(table['feature 3'].keys()),'entries')
+for k in range(len(table['feature 3'].keys())):
+    key = str(k)
+    Ingress.lookup_feature3.add_with_extract_feature3(int(key), table['feature 3'][key]['class 0'], table['feature 3'][key]['class 1'], table['feature 3'][key]['class 2'], table['feature 3'][key]['class 3'], table['feature 3'][key]['class 4'], table['feature 3'][key]['class 5'], table['feature 3'][key]['class 6'], table['feature 3'][key]['class 7'], table['feature 3'][key]['class 8'], table['feature 3'][key]['class 9'], table['feature 3'][key]['class 10'], table['feature 3'][key]['class 11'], table['feature 3'][key]['class 12'], table['feature 3'][key]['class 13'], table['feature 3'][key]['class 14'], table['feature 3'][key]['class 15'], table['feature 3'][key]['class 16'], table['feature 3'][key]['class 17'], table['feature 3'][key]['class 18'], table['feature 3'][key]['class 19'], table['feature 3'][key]['class 20'])
+
+print('load feature 4 table with',len(table['feature 4'].keys()),'entries')
+for k in range(len(table['feature 4'].keys())):
+    key = str(k)
+    Ingress.lookup_feature4.add_with_extract_feature4(int(key), table['feature 4'][key]['class 0'], table['feature 4'][key]['class 1'], table['feature 4'][key]['class 2'], table['feature 4'][key]['class 3'], table['feature 4'][key]['class 4'], table['feature 4'][key]['class 5'], table['feature 4'][key]['class 6'], table['feature 4'][key]['class 7'], table['feature 4'][key]['class 8'], table['feature 4'][key]['class 9'], table['feature 4'][key]['class 10'], table['feature 4'][key]['class 11'], table['feature 4'][key]['class 12'], table['feature 4'][key]['class 13'], table['feature 4'][key]['class 14'], table['feature 4'][key]['class 15'], table['feature 4'][key]['class 16'], table['feature 4'][key]['class 17'], table['feature 4'][key]['class 18'], table['feature 4'][key]['class 19'], table['feature 4'][key]['class 20'])
+
+print('load feature 5 table with',len(table['feature 5'].keys()),'entries')
+for k in range(len(table['feature 5'].keys())):
+    key = str(k)
+    Ingress.lookup_feature5.add_with_extract_feature5(int(key), table['feature 5'][key]['class 0'], table['feature 5'][key]['class 1'], table['feature 5'][key]['class 2'], table['feature 5'][key]['class 3'], table['feature 5'][key]['class 4'], table['feature 5'][key]['class 5'], table['feature 5'][key]['class 6'], table['feature 5'][key]['class 7'], table['feature 5'][key]['class 8'], table['feature 5'][key]['class 9'], table['feature 5'][key]['class 10'], table['feature 5'][key]['class 11'], table['feature 5'][key]['class 12'], table['feature 5'][key]['class 13'], table['feature 5'][key]['class 14'], table['feature 5'][key]['class 15'], table['feature 5'][key]['class 16'], table['feature 5'][key]['class 17'], table['feature 5'][key]['class 18'], table['feature 5'][key]['class 19'], table['feature 5'][key]['class 20'])
+
+print('load feature 6 table with',len(table['feature 6'].keys()),'entries')
+for k in range(len(table['feature 6'].keys())):
+    key = str(k)
+    Ingress.lookup_feature6.add_with_extract_feature6(int(key), table['feature 6'][key]['class 0'], table['feature 6'][key]['class 1'], table['feature 6'][key]['class 2'], table['feature 6'][key]['class 3'], table['feature 6'][key]['class 4'], table['feature 6'][key]['class 5'], table['feature 6'][key]['class 6'], table['feature 6'][key]['class 7'], table['feature 6'][key]['class 8'], table['feature 6'][key]['class 9'], table['feature 6'][key]['class 10'], table['feature 6'][key]['class 11'], table['feature 6'][key]['class 12'], table['feature 6'][key]['class 13'], table['feature 6'][key]['class 14'], table['feature 6'][key]['class 15'], table['feature 6'][key]['class 16'], table['feature 6'][key]['class 17'], table['feature 6'][key]['class 18'], table['feature 6'][key]['class 19'], table['feature 6'][key]['class 20'])
+
+print('load feature 7 table with',len(table['feature 7'].keys()),'entries')
+for k in range(len(table['feature 7'].keys())):
+    key = str(k)
+    Ingress.lookup_feature7.add_with_extract_feature7(int(key), table['feature 7'][key]['class 0'], table['feature 7'][key]['class 1'], table['feature 7'][key]['class 2'], table['feature 7'][key]['class 3'], table['feature 7'][key]['class 4'], table['feature 7'][key]['class 5'], table['feature 7'][key]['class 6'], table['feature 7'][key]['class 7'], table['feature 7'][key]['class 8'], table['feature 7'][key]['class 9'], table['feature 7'][key]['class 10'], table['feature 7'][key]['class 11'], table['feature 7'][key]['class 12'], table['feature 7'][key]['class 13'], table['feature 7'][key]['class 14'], table['feature 7'][key]['class 15'], table['feature 7'][key]['class 16'], table['feature 7'][key]['class 17'], table['feature 7'][key]['class 18'], table['feature 7'][key]['class 19'], table['feature 7'][key]['class 20'])
+
+print('load thresh_and_bias table with 1 entries')
+Ingress.class_prob.add_with_read_class_prob(1, table['class prob']['class 0'], table['class prob']['class 1'], table['class prob']['class 2'], table['class prob']['class 3'], table['class prob']['class 4'], table['class prob']['class 5'], table['class prob']['class 6'], table['class prob']['class 7'], table['class prob']['class 8'], table['class prob']['class 9'], table['class prob']['class 10'], table['class prob']['class 11'], table['class prob']['class 12'], table['class prob']['class 13'], table['class prob']['class 14'], table['class prob']['class 15'], table['class prob']['class 16'], table['class prob']['class 17'], table['class prob']['class 18'], table['class prob']['class 19'], table['class prob']['class 20'])
+
