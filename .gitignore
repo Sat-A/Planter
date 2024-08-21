@@ -1,7 +1,6 @@
 
 # Byte-compiled / optimized / DLL files
 Data/
-QCMP/
 protobuf
 *Conveqs.p4
 __pycache__/
