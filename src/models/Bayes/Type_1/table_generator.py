@@ -231,12 +231,17 @@ def test_tables(sklearn_test_y, test_X, test_y):
             error += 1
 
         if i % 1 == 0 and i != 0:
-            print(
+            '''print(
                 '\rswitch_prediction: {}, test_y: {}, with acc: {:.4}, with acc to sklearn: {:.4}, with error: {:.4}, M/A format macro f1: {:.3}, macro f1: {:.3}'.format(
                     switch_prediction, test_y[i], correct / (i + 1), same / (i + 1), error / (i + 1),
                     accuracy_score(switch_test_y[:i], test_y[:i]), accuracy_score(sklearn_test_y[:i], test_y[:i])),
                 end="")
-            # sys.stdout.flush()
+            '''
+            print(
+                'switch_prediction: {}, test_y: {}, with acc: {:.4}, with acc to sklearn: {:.4}, with error: {:.4}, M/A format macro f1: {:.3}, macro f1: {:.3}'.format(
+                    switch_prediction, test_y[i], correct / (i + 1), same / (i + 1), error / (i + 1),
+                    accuracy_score(switch_test_y[:i], test_y[:i]), accuracy_score(sklearn_test_y[:i], test_y[:i])))
+            sys.stdout.flush()
     print('\nThe accuracy of the match action format of Bayes is', correct / np.shape(test_X.values)[0])
     result = classification_report(test_y, switch_test_y, digits=4)
     print('\n', result)

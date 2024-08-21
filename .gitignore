@@ -3,6 +3,7 @@
 Data/
 QCMP/
 protobuf
+*Conveqs.p4
 __pycache__/
 *.json
 *.py[cod]
