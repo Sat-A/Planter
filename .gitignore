@@ -1,7 +1,6 @@
-
 # Byte-compiled / optimized / DLL files
-Data/
 protobuf
+*.csv
 *Conveqs.p4
 __pycache__/
 *.json
