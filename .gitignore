@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 protobuf
+Data/UNSW-NB15/
 *Conveqs.p4
 __pycache__/
 *.json
